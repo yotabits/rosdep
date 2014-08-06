@@ -42,6 +42,7 @@ if sys.hexversion > 0x03000000: #Python3
 else:
     python3 = False
 
+
 def read_stdout(cmd):
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     std_out, std_err = p.communicate()
@@ -49,6 +50,16 @@ def read_stdout(cmd):
         return std_out.decode()
     else:
         return std_out    
+
+
+def read_stdout_err(cmd):
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    std_out, std_err = p.communicate()
+    if python3:
+        return std_out.decode(), std_err.decode(), p.returncode
+    else:
+        return std_out, std_err, p.returncode
+
 
 def create_tempfile_from_string_and_execute(string_script, path=None, exec_fn=None):
     """
