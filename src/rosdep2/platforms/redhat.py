@@ -60,7 +60,7 @@ def register_rhel(context):
     context.add_os_installer_key(OS_RHEL, SOURCE_INSTALLER)
     context.set_default_os_installer_key(OS_RHEL, YUM_INSTALLER)
 
-def rpm_detect(packages, exec_fn=None):
+def rpm_detect(packages, exec_fn=None, warnings=False):
     ret_list = []
     #cmd = ['rpm', '-q', '--qf ""']  # suppress output for installed packages
     cmd = ['rpm', '-q', '--whatprovides', '--qf', '[%{PROVIDES}\n]']  # output: "pkg_name" for installed, error text for not installed packages

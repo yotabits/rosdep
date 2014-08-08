@@ -62,7 +62,7 @@ def register_ubuntu(context):
     context.set_default_os_installer_key(OS_UBUNTU, APT_INSTALLER)
     context.set_os_version_type(OS_UBUNTU, TYPE_CODENAME)
 
-def dpkg_detect(pkgs, exec_fn=None):
+def dpkg_detect(pkgs, exec_fn=None, warnings=False):
     """ 
     Given a list of package, return the list of installed packages.
 
