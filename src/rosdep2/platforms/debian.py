@@ -29,6 +29,7 @@
 # Author Tully Foote, Ken Conley
 
 from __future__ import print_function
+import subprocess
 import sys
 import re
 
@@ -93,7 +94,7 @@ APT_PURELY_VIRTUAL_RE = re.compile(
 APT_CACHE_REVERSE_PROVIDE_START_RE = re.compile(
         r'^Reverse Provides:')
 # format of a 'Reverse Provides' line in the apt-cache showpkg output
-APT_CACHE_PROVIDER_RE = re.compile('^(.*) (.*)$')
+APT_CACHE_PROVIDER_RE = re.compile('^(.*?) (.*)$')
 
 
 def _is_installed_as_virtual_package(package, exec_fn=None):
@@ -200,6 +201,11 @@ class AptInstaller(PackageManagerInstaller):
     """
     def __init__(self):
         super(AptInstaller, self).__init__(dpkg_detect)
+
+    def get_version_strings(self):
+        output = subprocess.check_output(['apt-get', '--version'])
+        version = output.splitlines()[0].split(' ')[1]
+        return ['apt-get {}'.format(version)]
 
     def get_install_command(self, resolved, interactive=True, reinstall=False, quiet=False):
         packages = self.get_packages_to_install(resolved, reinstall=reinstall)
